@@ -14,7 +14,7 @@ blogsRouter.post(
   middleware.userExtractor,
   async (request, response, next) => {
     try {
-      const user = request.user;
+      const { user } = request;
       if (!user) return response.status(401).end();
       const blog = { ...request.body, user: user.id };
       const savedBlog = await Blog(blog).save();
@@ -25,7 +25,7 @@ blogsRouter.post(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 blogsRouter.delete(
@@ -45,12 +45,12 @@ blogsRouter.delete(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 blogsRouter.put('/:id', async (request, response, next) => {
   try {
-    const id = request.params.id;
+    const { id } = request.params;
     const result = await Blog.findByIdAndUpdate(id, request.body, {
       new: true,
       runValidators: true,
@@ -75,7 +75,7 @@ blogsRouter.post(
   async (request, response, next) => {
     try {
       const blogId = request.params.id;
-      const user = request.user;
+      const { user } = request;
       if (!user) return response.status(401).end();
       const comment = { ...request.body, blog: blogId };
       const savedComment = await Comment(comment).save();
@@ -84,7 +84,7 @@ blogsRouter.post(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 module.exports = blogsRouter;

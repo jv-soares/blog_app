@@ -16,7 +16,7 @@ const blogSchema = new mongoose.Schema(
         delete ret.__v;
       },
     },
-  }
+  },
 );
 
 module.exports = mongoose.model('Blog', blogSchema);

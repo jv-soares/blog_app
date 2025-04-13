@@ -13,7 +13,7 @@ const commentSchema = new mongoose.Schema(
         delete ret.__v;
       },
     },
-  }
+  },
 );
 
 module.exports = mongoose.model('Comment', commentSchema);
