@@ -15,7 +15,7 @@ jobs:
             frontend/package-lock.json
             backend/package-lock.json
       - name: Check style
-        run: echo "linting"
+        run: npm run lint
       - name: Run tests
         run: echo "testing"
       - name: Build
