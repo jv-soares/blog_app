@@ -1,5 +1,6 @@
 module.exports = {
   extends: ['eslint-config-airbnb-base'],
+  env: { node: true },
   overrides: [
     {
       files: ['tests/**'],
