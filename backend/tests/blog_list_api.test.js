@@ -150,18 +150,18 @@ describe('PUT /api/blogs', () => {
   test('succeeds with status code 201 if id is valid', async () => {
     const blogsAtStart = await helper.blogsInDb();
     const blogToUpdate = blogsAtStart[0];
-    const updatedBlog = { ...blogToUpdate, likes: blogToUpdate.likes + 1 };
+    const updatedBlog = {
+      ...blogToUpdate,
+      likes: blogToUpdate.likes + 1,
+    };
 
     const response = await api
       .put(`/api/blogs/${blogToUpdate.id}`)
-      .send(updatedBlog)
+      .send({ ...updatedBlog, user: updatedBlog.user.id })
       .expect(201)
       .expect('Content-Type', /application\/json/);
 
-    expect(response.body).toEqual({
-      ...updatedBlog,
-      user: updatedBlog.user.toString(),
-    });
+    expect(response.body).toEqual(updatedBlog);
 
     const blogsAtEnd = await helper.blogsInDb();
     expect(blogsAtEnd).toContainEqual(updatedBlog);

@@ -27,7 +27,7 @@ const testUser = {
 const initialUsers = [testUser];
 
 const blogsInDb = async () => {
-  const blogs = await Blog.find({});
+  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 });
   return blogs.map((e) => e.toJSON());
 };
 
