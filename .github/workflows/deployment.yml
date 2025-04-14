@@ -14,15 +14,13 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: |
-            frontend/package-lock.json
-            backend/package-lock.json
+          cache-dependency-path: backend/package-lock.json
       - name: Install dependencies
         run: npm install
       - name: Check style
         run: npm run lint
       - name: Run tests
-        run: echo "testing"
+        run: npm run test
       - name: Build
         run: echo "build"
       - name: Deploy
