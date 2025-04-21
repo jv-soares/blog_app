@@ -43,13 +43,18 @@ const BlogDetails = () => {
             variant='contained'
             sx={{ px: 2 }}
             onClick={() => dispatch(likeBlog(blog))}
+            className='blog-likes'
           >
             <Icon sx={{ mr: 1 }}>thumb_up</Icon>
-            {blog.likes}
+            <Typography variant='body2' data-testid='like-count'>
+              {blog.likes}
+            </Typography>
           </Button>
         </Box>
         <Typography variant='subtitle1'>Added by {blog.author}</Typography>
-        <Link href={blog.url}>{blog.url}</Link>
+        <Link href={blog.url} className='blog-url'>
+          {blog.url}
+        </Link>
         {blog.user.id === user.id && (
           <Button
             variant='outlined'

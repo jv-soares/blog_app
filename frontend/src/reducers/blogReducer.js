@@ -43,7 +43,7 @@ export const deleteBlog = (blogId) => {
 
 export const likeBlog = (blog) => {
   return async (dispatch, getState) => {
-    const newBlog = { id: blog.id, likes: blog.likes + 1 };
+    const newBlog = { ...blog, likes: blog.likes + 1 };
     const updatedBlog = await blogService.update(newBlog);
     const blogs = getState().blogs;
     const newBlogs = blogs.map((e) => (e.id === blog.id ? updatedBlog : e));
