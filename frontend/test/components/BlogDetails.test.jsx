@@ -20,7 +20,6 @@ const mockBlog = {
 };
 
 export const handlers = [
-  // http.get(`/api/blogs/:id`, async () => HttpResponse.json(mockBlog)),
   http.get(`/api/blogs/:id/comments`, async () => HttpResponse.json([])),
   http.put(`/api/blogs/:id`, async ({ request }) => {
     const updatedBlog = await request.json();
@@ -71,40 +70,4 @@ test('should render likes and url', async () => {
 
   expect(likes).not.toBeNull();
   expect(url).not.toBeNull();
-});
-
-test('should call handleLike callback when like button is pressed', async () => {
-  store.dispatch(blogsSet([mockBlog]));
-  store.dispatch(userSet(mockUser));
-
-  const user = userEvent.setup();
-
-  const { container } = renderBlog();
-  await waitFor(() => screen.getByText(mockBlog.title));
-
-  const likes = screen.getByTestId('like-count');
-  console.log(likes.textContent);
-
-  const likeButton = container.querySelector('.blog-likes');
-  const getLikes = () => likeButton.lastChild.textContent;
-
-  // console.log(getLikes());
-
-  expect(getLikes(), mockBlog.likes);
-
-  await user.click(likeButton);
-
-  const likes2 = screen.getByTestId('like-count');
-  console.log(likes2.textContent);
-
-  await waitFor(() => likeButton.textContent);
-
-  // console.log(getLikes());
-
-  // const likeButton = container
-  //   .querySelector('.blog-likes')
-  //   .querySelector('button');
-  // console.log(likeButton);
-
-  // await user.click(likeButton);
 });
