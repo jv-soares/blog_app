@@ -1,3 +1,4 @@
+import axios from 'axios';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -12,6 +13,8 @@ import UserDetails, {
 import UserList, { loader as usersLoader } from './components/UserList';
 import './index.css';
 import store from './store';
+
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 
 const router = createBrowserRouter([
   {
