@@ -27,6 +27,6 @@ test('should render only title and author', () => {
 
   expect(title).toBeDefined();
   expect(author).toBeDefined();
-  expect(likes).not.toBeNull();
+  expect(likes).toBeNull();
   expect(url).toBeNull();
 });
