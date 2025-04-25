@@ -49,7 +49,7 @@ const renderBlog = () => {
         loader: () => ({ blogId: mockBlog.id }),
       },
     ],
-    { initialEntries: [`/blogs/${mockBlog.id}`] },
+    // { initialEntries: [`/blogs/${mockBlog.id}`] },
   );
   return render(
     <Provider store={store}>
