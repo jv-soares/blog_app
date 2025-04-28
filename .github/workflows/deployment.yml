@@ -1,0 +1,76 @@
+name: Deployment
+
+on:
+  push:
+    branches: main
+
+jobs:
+  change_check:
+    runs-on: ubuntu-latest
+    outputs:
+      did-frontend-change: ${{ steps.filter.outputs.frontend }}
+      did-backend-change: ${{ steps.filter.outputs.backend }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36
+        id: filter
+        with:
+          filters: |
+            frontend
+              - 'frontend/**'
+            backend
+              - 'backend/**'
+
+  frontend_deployment:
+    needs: change_check
+    if: needs.change_check.outputs.did-frontend-change == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install dependencies
+        run: npm install
+      - name: Check style
+        run: npm run lint
+      - name: Run tests
+        run: npm run test
+      - name: Build
+        run: npm run build
+      - name: Deploy
+        if: github.ref == 'refs/heads/main'
+        env:
+          deploy_url: ${{ secrets.FRONTEND_RENDER_DEPLOY_HOOK_URL }}
+        run: curl "$deploy_url"
+
+  backend_deployment:
+    needs: change_check
+    if: needs.change_check.outputs.did-backend-change == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+      - name: Install dependencies
+        run: npm install
+      - name: Check style
+        run: npm run lint
+      - name: Run tests
+        run: npm run test
+      - name: Deploy
+        if: github.ref == 'refs/heads/main'
+        env:
+          deploy_url: ${{ secrets.BACKEND_RENDER_DEPLOY_HOOK_URL }}
+        run: curl "$deploy_url"
