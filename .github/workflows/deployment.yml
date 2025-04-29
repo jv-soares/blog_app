@@ -48,6 +48,15 @@ jobs:
         env:
           deploy_url: ${{ secrets.FRONTEND_RENDER_DEPLOY_HOOK_URL }}
         run: curl "$deploy_url"
+      - name: Get previous tag
+        id: previous-tag
+        uses: WyriHaximus/github-action-get-previous-tag@04e8485ecb6487243907e330d522ff60f02283ce
+        with:
+          prefix: '@frontend'
+      - name: Get next minor version
+        uses: WyriHaximus/github-action-next-semvers@v1
+        with:
+          version: ${{ steps.previous-tag.outputs.tag }}
 
   backend_deployment:
     needs: change_check
@@ -74,3 +83,12 @@ jobs:
         env:
           deploy_url: ${{ secrets.BACKEND_RENDER_DEPLOY_HOOK_URL }}
         run: curl "$deploy_url"
+      - name: Get previous tag
+        id: previous-tag
+        uses: WyriHaximus/github-action-get-previous-tag@04e8485ecb6487243907e330d522ff60f02283ce
+        with:
+          prefix: '@backend'
+      - name: Get next minor version
+        uses: WyriHaximus/github-action-next-semvers@v1
+        with:
+          version: ${{ steps.previous-tag.outputs.tag }}
