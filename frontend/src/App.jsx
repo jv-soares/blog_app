@@ -95,7 +95,7 @@ const App = () => {
         <Stack direction='row' sx={{ justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex' }}>
             <Typography variant='h5' component='h1'>
-              Blog App
+              Blog app
             </Typography>
             <Box sx={{ px: 4 }}>
               <Link to='/'>
