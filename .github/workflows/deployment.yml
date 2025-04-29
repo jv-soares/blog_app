@@ -16,9 +16,9 @@ jobs:
         id: filter
         with:
           filters: |
-            frontend
+            frontend:
               - 'frontend/**'
-            backend
+            backend:
               - 'backend/**'
 
   frontend_deployment:
