@@ -77,6 +77,7 @@ jobs:
 
   tag_release:
     needs: [frontend_deployment, backend_deployment]
+    if: always() && (needs.frontend_deployment.result == 'success' || needs.backend_deployment.result == 'success')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
