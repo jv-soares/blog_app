@@ -1,12 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
 import { render, screen, waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 import { Provider } from 'react-redux';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom/dist';
 import BlogDetails from '../../src/components/BlogDetails';
-import blogReducer, { blogsSet } from '../../src/reducers/blogReducer';
-import userReducer, { userSet } from '../../src/reducers/userReducer';
+import { blogsSet } from '../../src/reducers/blogReducer';
+import { userSet } from '../../src/reducers/userReducer';
+import testStore from '../testStore';
 
 const mockUser = { id: '1', name: 'test name' };
 
@@ -32,13 +32,6 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-const store = configureStore({
-  reducer: {
-    blogs: blogReducer,
-    user: userReducer,
-  },
-});
-
 const renderBlog = () => {
   const router = createMemoryRouter(
     [
@@ -51,15 +44,15 @@ const renderBlog = () => {
     { initialEntries: [`/blogs/${mockBlog.id}`] },
   );
   return render(
-    <Provider store={store}>
+    <Provider store={testStore}>
       <RouterProvider router={router} />
     </Provider>,
   );
 };
 
 test('should render likes and url', async () => {
-  store.dispatch(blogsSet([mockBlog]));
-  store.dispatch(userSet(mockUser));
+  testStore.dispatch(blogsSet([mockBlog]));
+  testStore.dispatch(userSet(mockUser));
 
   const { container } = renderBlog();
   await waitFor(() => screen.getByText(mockBlog.title));

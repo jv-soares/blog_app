@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { deleteBlog, likeBlog } from '../reducers/blogReducer';
 import Comments from './Comments';
+import LikeButton from './LikeButton';
 
 export const loader = async ({ params }) => {
   const blogId = params.id;
@@ -39,17 +40,10 @@ const BlogDetails = () => {
           <Typography variant='h3' component='h2' sx={{ mr: 4 }}>
             {blog.title}
           </Typography>
-          <Button
-            variant='contained'
-            sx={{ px: 2 }}
+          <LikeButton
+            likeCount={blog.likes}
             onClick={() => dispatch(likeBlog(blog))}
-            className='blog-likes'
-          >
-            <Icon sx={{ mr: 1 }}>thumb_up</Icon>
-            <Typography variant='body2' data-testid='like-count'>
-              {blog.likes}
-            </Typography>
-          </Button>
+          />
         </Box>
         <Typography variant='subtitle1'>Added by {blog.author}</Typography>
         <Link href={blog.url} className='blog-url'>
